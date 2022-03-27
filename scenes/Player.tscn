@@ -1,0 +1,32 @@
+[gd_scene load_steps=6 format=2]
+
+[ext_resource path="res://assets/animated/Player_1_B.png" type="Texture" id=1]
+[ext_resource path="res://assets/animated/Player_1_A.png" type="Texture" id=2]
+[ext_resource path="res://script/Player.gd" type="Script" id=3]
+
+[sub_resource type="SpriteFrames" id=2]
+animations = [ {
+"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
+"loop": true,
+"name": "walk",
+"speed": 2.0
+} ]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 7, 15 )
+
+[node name="Player" type="Area2D"]
+script = ExtResource( 3 )
+__meta__ = {
+"_edit_group_": true,
+"_edit_lock_": true
+}
+
+[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
+frames = SubResource( 2 )
+animation = "walk"
+frame = 1
+playing = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
