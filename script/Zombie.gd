@@ -2,24 +2,25 @@ extends Area2D
 
 export (int) var pos_x
 export (int) var pos_y
+export var speed = 5
 
 var tile_size = 32
+var target = Vector2.ZERO
+
 onready var ray = $RayCast2D
 onready var tween = $Tween
-export var speed = 5
+onready var players = get_tree().get_nodes_in_group("players")
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
-
+	pass
 
 func _on_Link_zombie_round():
-	move(Vector2.UP)
+	var old_position = position
+	choose_target()
+	move(direction_target())
+	if(old_position == position):
+		possible_path()
 
 func move(vect_dir):
 	ray.cast_to = vect_dir * tile_size
@@ -31,3 +32,26 @@ func move(vect_dir):
 func move_tween(vect_dir):
 	tween.interpolate_property(self, "position", position, position + vect_dir * tile_size, 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
+
+func choose_target():
+	var distance_player_1 = round(sqrt(pow(players[0].position.x - position.x, 2) + pow(players[0].position.y - position.y, 2)))
+	var distance_player_2 = round(sqrt(pow(players[1].position.x - position.x, 2) + pow(players[1].position.y - position.y, 2)))
+	if(distance_player_1 < distance_player_2):
+		target = Vector2(players[0].position.x - position.x, players[0].position.y - position.y)
+	else:
+		target = Vector2(players[1].position.x - position.x, players[1].position.y - position.y)
+
+func direction_target():
+	if(abs(target.x) > abs(target.y)):
+		if(target.x > 0):
+			return Vector2.RIGHT
+		elif(target.x < 0):
+			return Vector2.LEFT
+	else:
+		if(target.y > 0):
+			return Vector2.DOWN
+		elif(target.y < 0):
+			return Vector2.UP
+
+func possible_path():
+	pass
