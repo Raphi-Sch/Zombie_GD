@@ -88,7 +88,7 @@ player = 1
 position = Vector2( 144, 48 )
 player = 2
 
-[node name="Link" type="Node" parent="."]
+[node name="Link" type="Control" parent="."]
 script = ExtResource( 6 )
 
 [connection signal="moved" from="Players/Player_1" to="Link" method="_on_Player_1_moved"]
