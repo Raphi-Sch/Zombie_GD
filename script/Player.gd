@@ -1,21 +1,21 @@
 extends Area2D
 
+# External var (editor)
 export (int) var player
 
+# Local var
 var tile_size = 32
 
 # Use for inputs
+var current_inputs
 var p1_inputs = {"p1_right": Vector2.RIGHT,
 			"p1_left": Vector2.LEFT,
 			"p1_up": Vector2.UP,
 			"p1_down": Vector2.DOWN}
-
 var p2_inputs = {"p2_right": Vector2.RIGHT,
 			"p2_left": Vector2.LEFT,
 			"p2_up": Vector2.UP,
 			"p2_down": Vector2.DOWN}
-
-var current_inputs
 
 # Use for collision
 onready var ray = $RayCast2D
@@ -24,8 +24,6 @@ onready var ray = $RayCast2D
 onready var tween = $Tween
 export var speed = 5
 
-
-# Called when the node enters the scene tree for the first time.
 func _ready():
 	position = position.snapped(Vector2.ONE * tile_size)
 	position += Vector2.ONE * tile_size/2
@@ -47,20 +45,15 @@ func _unhandled_input(event):
 		current_inputs = p2_inputs
 	for dir in current_inputs.keys():
 		if event.is_action_pressed(dir):
-			move(dir)
+			move(current_inputs[dir])
 
-func move(dir):
-	ray.cast_to = current_inputs[dir] * tile_size
+func move(vect_dir):
+	ray.cast_to = vect_dir * tile_size
 	ray.force_raycast_update()
 	if !ray.is_colliding():
-		#position += current_inputs[dir] * tile_size
-		move_tween(dir)
+		move_tween(vect_dir)
 
 # Smooth transition between tiles
-func move_tween(dir):
-	tween.interpolate_property(self, "position", position, position + current_inputs[dir] * tile_size, 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
+func move_tween(vect_dir):
+	tween.interpolate_property(self, "position", position, position + vect_dir * tile_size, 1.0/speed, Tween.TRANS_SINE, Tween.EASE_IN_OUT)
 	tween.start()
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
