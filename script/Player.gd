@@ -3,6 +3,8 @@ extends Area2D
 # External var (editor)
 export (int) var player
 
+signal moved
+
 # Local var
 var tile_size = 32
 
@@ -52,6 +54,7 @@ func move(vect_dir):
 	ray.force_raycast_update()
 	if !ray.is_colliding():
 		move_tween(vect_dir)
+	emit_signal("moved")
 
 # Smooth transition between tiles
 func move_tween(vect_dir):
