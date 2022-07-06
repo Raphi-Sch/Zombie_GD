@@ -1,38 +1,20 @@
-[gd_scene load_steps=8 format=2]
+[gd_scene load_steps=4 format=2]
 
-[ext_resource path="res://assets/animated/Player_1_B.png" type="Texture" id=1]
-[ext_resource path="res://assets/animated/Player_1_A.png" type="Texture" id=2]
+[ext_resource path="res://assets/texture/player_1.png" type="Texture" id=1]
 [ext_resource path="res://script/Player.gd" type="Script" id=3]
-[ext_resource path="res://assets/animated/Player_2_A.png" type="Texture" id=4]
-[ext_resource path="res://assets/animated/Player_2_B.png" type="Texture" id=5]
 
-[sub_resource type="SpriteFrames" id=2]
-animations = [ {
-"frames": [ ExtResource( 4 ), ExtResource( 5 ) ],
-"loop": true,
-"name": "walk_2",
-"speed": 4.0
-}, {
-"frames": [ ExtResource( 2 ), ExtResource( 1 ) ],
-"loop": true,
-"name": "walk_1",
-"speed": 4.0
-} ]
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 16, 16 )
 
-[sub_resource type="RectangleShape2D" id=3]
-extents = Vector2( 7, 14 )
-
-[node name="Player" type="KinematicBody2D"]
+[node name="Area2D" type="Area2D"]
 script = ExtResource( 3 )
-__meta__ = {
-"_edit_group_": true,
-"_edit_lock_": true
-}
 
-[node name="AnimatedSprite" type="AnimatedSprite" parent="."]
-scale = Vector2( 1.25, 1 )
-frames = SubResource( 2 )
-animation = "walk_1"
+[node name="Tween" type="Tween" parent="."]
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 1 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-shape = SubResource( 3 )
+shape = SubResource( 1 )
+
+[node name="RayCast2D" type="RayCast2D" parent="."]

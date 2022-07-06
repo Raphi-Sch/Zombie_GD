@@ -1,54 +1,40 @@
-extends KinematicBody2D
+extends Area2D
 
-export var speed = 200
 export (int) var player
 
-var screen_size
+var tile_size = 32
+var p1_inputs = {"p1_right": Vector2.RIGHT,
+			"p1_left": Vector2.LEFT,
+			"p1_up": Vector2.UP,
+			"p1_down": Vector2.DOWN}
+
+var p2_inputs = {"p2_right": Vector2.RIGHT,
+			"p2_left": Vector2.LEFT,
+			"p2_up": Vector2.UP,
+			"p2_down": Vector2.DOWN}
+
+var current_inputs
+
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-	screen_size = get_viewport_rect().size
+	position = position.snapped(Vector2.ONE * tile_size)
+	position += Vector2.ONE * tile_size/2
+
+func _unhandled_input(event):
 	if player == 1:
-		$AnimatedSprite.animation = "walk_1"
-	else:
-		$AnimatedSprite.animation = "walk_2"
+		current_inputs = p1_inputs
+	if player == 2:
+		current_inputs = p2_inputs
+	
+	for dir in current_inputs.keys():
+		if event.is_action_pressed(dir):
+			move(dir)
+
+func move(dir):
+	position += current_inputs[dir] * tile_size
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(_delta):
-	var velocity = Vector2.ZERO
-	
-	# The instance is player 1
-	if player == 1:
-		if Input.is_action_pressed("p1_right"):
-			velocity.x += 1
-		if Input.is_action_pressed("p1_left"):
-			velocity.x -= 1
-		if Input.is_action_pressed("p1_down"):
-			velocity.y += 1
-		if Input.is_action_pressed("p1_up"):
-			velocity.y -= 1
-	# The instance is player 2
-	else:
-		if Input.is_action_pressed("p2_right"):
-			velocity.x += 1
-		if Input.is_action_pressed("p2_left"):
-			velocity.x -= 1
-		if Input.is_action_pressed("p2_down"):
-			velocity.y += 1
-		if Input.is_action_pressed("p2_up"):
-			velocity.y -= 1
-	
-	# Mouvement
-	if velocity.length() > 0:
-		velocity = velocity.normalized() * speed
-		$AnimatedSprite.play()
-	else:
-		$AnimatedSprite.stop()
-	
-	move_and_slide(velocity, Vector2(0, -1))
-	
-	# Animation
-	$AnimatedSprite.flip_v = false
-	if velocity.x != 0:
-		$AnimatedSprite.flip_h = velocity.x < 0
+#func _process(delta):
+#	pass
