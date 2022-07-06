@@ -11,7 +11,6 @@ func _ready():
 
 func player_moved():
 	player_round += 1
-	print(player_round)
 	if (player_round % 2 && player_round != 1):
 		emit_signal("zombie_round")
 
