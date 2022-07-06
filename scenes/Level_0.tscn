@@ -75,6 +75,18 @@ tile_data = PoolIntArray( 0, 0, 0, 1, 0, 0, 2, 0, 0, 3, 0, 0, 4, 0, 0, 5, 0, 0, 
 [node name="Zombie_1" parent="Zombie" instance=ExtResource( 4 )]
 position = Vector2( 176, 625 )
 
+[node name="Zombie_2" parent="Zombie" instance=ExtResource( 4 )]
+position = Vector2( 240, 561 )
+
+[node name="Zombie_3" parent="Zombie" instance=ExtResource( 4 )]
+position = Vector2( 592, 145 )
+
+[node name="Zombie_4" parent="Zombie" instance=ExtResource( 4 )]
+position = Vector2( 592, 593 )
+
+[node name="Zombie_5" parent="Zombie" instance=ExtResource( 4 )]
+position = Vector2( 272, 433 )
+
 [node name="Players" type="Node" parent="."]
 
 [node name="Player_1" parent="Players" groups=["players"] instance=ExtResource( 5 )]
@@ -91,3 +103,7 @@ script = ExtResource( 6 )
 [connection signal="moved" from="Players/Player_1" to="Link" method="_on_Player_1_moved"]
 [connection signal="moved" from="Players/Player_2" to="Link" method="_on_Player_2_moved"]
 [connection signal="zombie_round" from="Link" to="Zombie/Zombie_1" method="_on_Link_zombie_round"]
+[connection signal="zombie_round" from="Link" to="Zombie/Zombie_2" method="_on_Link_zombie_round"]
+[connection signal="zombie_round" from="Link" to="Zombie/Zombie_3" method="_on_Link_zombie_round"]
+[connection signal="zombie_round" from="Link" to="Zombie/Zombie_4" method="_on_Link_zombie_round"]
+[connection signal="zombie_round" from="Link" to="Zombie/Zombie_5" method="_on_Link_zombie_round"]
